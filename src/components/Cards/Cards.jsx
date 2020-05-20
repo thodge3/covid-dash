@@ -6,6 +6,11 @@ import cx from 'classnames';
 import styles from './Cards.module.css';
 
 const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) =>{
+
+    const easeOutCubic = (t, b, c, d) => {
+		return c*((t=t/d-1)*t*t + 1) + b*t;
+    };
+
     console.log(confirmed);
     if(!confirmed){
         return 'Loading...'
@@ -17,7 +22,7 @@ const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) =>{
                     <CardContent>
                         <Typography color="textSecondary" gutterBottom>Infected</Typography>
                         <Typography variant="h5">
-                            <CountUp start={0} end={confirmed.value} duration={1.5} separator="," />
+                            <CountUp start={0} end={confirmed.value} useEasing={true} easingFn={ easeOutCubic } duration={1.5} separator="," />
                         </Typography>
                         <Typography color="textSecondary">{ new Date(lastUpdate).toDateString() }</Typography>
                         <Typography variant="body2">Number of Active Cases of COVID-19</Typography>
