@@ -38,7 +38,7 @@ const Chart = ({ data : { confirmed, recovered, deaths }, country }) =>{
 
     );
 
-    console.log(confirmed, recovered, deaths)
+    // console.log(confirmed, recovered, deaths)
 
     const barChart = (
         confirmed
