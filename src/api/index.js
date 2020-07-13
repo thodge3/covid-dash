@@ -3,9 +3,8 @@ import moment from 'moment';
 import _ from 'lodash';
 
 const url = 'https://covid19.mathdro.id/api';
-//const urlGit = 'https://covid-api.com/api';
 const allCountriesUrl = 'https://api.covid19api.com'
-// const allCountriesUrl = 'https://api.covid19api.com/total/country/united-states'
+
 const urlJHU = 'https://covidtracking.com/api';
 
 export const fetchNewCountries = async() => {
@@ -61,9 +60,24 @@ export const fetchNewData = async(country) => {
         } catch (error) {
             console.log(error)
         }
-    }
-
-    if (country){
+    } else if (country === 'united-states'){
+        try{
+            const { data } = await axios.get(`${urlJHU}/us/daily/`);
+            const modifiedData = data.map((step) => ({ 
+                date: moment(step.date, 'YYYYMMDD').format('LL'),
+                timestamp: moment(step.date).format('x'),
+                positive: step.positive,
+                positiveIncrease: step.positiveIncrease,
+                recovered: step.recovered,
+                deaths: step.death,
+             }));
+    
+            return _.orderBy(modifiedData, ['timestamp'], ['asc']);
+    
+        } catch (error) {
+            console.log(error)
+        }
+    }else{
         changeableUrl = `${allCountriesUrl}/total/country/${country}`
     }
 

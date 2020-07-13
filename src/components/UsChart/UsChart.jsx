@@ -55,7 +55,6 @@ const UsChart = ({ data, countryName }) => {
     
         scatter = scatter.filter(item => item.y > 0)
     
-        console.log(modPositiveIncrease)
         /*
         // modPositiveIncrease = dailyData.map(({ positiveIncrease }) => positiveIncrease).reverse();
         scatter = dailyData.map(({ positive, positiveIncrease, date }) => ({
