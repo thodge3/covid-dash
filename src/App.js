@@ -8,6 +8,7 @@ import { Cards, UsChart, CountryPicker, StatePicker } from './components';
 import styles from './App.module.css'
 import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData } from './api';
 import moment from 'moment';
+import ReactJoyride from 'react-joyride';
 
 import coronaImage from './images/image.png';
 import StateChart from './components/StateCharts/StateChart';
@@ -25,6 +26,7 @@ class App extends React.Component {
     stateDisplay: null,
     stateMeta: null,
     stateData: null,
+    steps: [],
   }
 
   async componentDidMount() {
@@ -47,6 +49,14 @@ class App extends React.Component {
     })
     this.setState({
       stateMeta: stateInfo,
+    })
+    this.setState({
+      steps: [
+        {
+          target: '.CountryPicker_formControl__OBg0y',
+          content: "Select United States for State Information!"
+        }
+      ]
     })
   }
 
@@ -120,9 +130,12 @@ class App extends React.Component {
 
     return (
       <div className={styles.container}>
+        <ReactJoyride
+          steps={this.state.steps}
+        />
         <img src={coronaImage} className={styles.image} alt='COVID-19' />
         <Cards cardData={cardData} />
-        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} id='check'/>
         <UsChart data={data} country={country} countryName={countryName} />
         <StatePicker country={country} handleStateChange={this.handleStateChange}/>
         <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country}/>
