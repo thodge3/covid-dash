@@ -4,12 +4,13 @@ import React from 'react';
 // import Chart from './components/Chart';
 // import CountryPicker from './components/CountryPicker';
 
-import { Cards, UsChart, CountryPicker } from './components';
+import { Cards, UsChart, CountryPicker, StatePicker } from './components';
 import styles from './App.module.css'
-import { fetchData, fetchGitData, fetchNewData, fetchNewCountries } from './api';
+import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData } from './api';
 import moment from 'moment';
 
 import coronaImage from './images/image.png';
+import StateChart from './components/StateCharts/StateChart';
 
 class App extends React.Component {
 
@@ -20,7 +21,10 @@ class App extends React.Component {
     usData: {},
     country: 'global',
     countryName: 'Global',
-
+    state: null,
+    stateDisplay: null,
+    stateMeta: null,
+    stateData: null,
   }
 
   async componentDidMount() {
@@ -28,6 +32,7 @@ class App extends React.Component {
     const cardData = await fetchData();
     const fetchedGitData = await fetchGitData();
     const countries = await fetchNewCountries();
+    const stateInfo = await fetchStateInfo();
 
     this.setState({ data: fetchedData });
     this.setState({ usData: fetchedGitData });
@@ -40,11 +45,19 @@ class App extends React.Component {
         lastUpdate: moment.utc(cardData.lastUpdate).format('LL'),
       }
     })
+    this.setState({
+      stateMeta: stateInfo,
+    })
   }
 
   handleCountryChange = async (country) => {
     // const fetchedData = await fetchData(country);
     let fetchedData;
+
+    if(country === 'united-states') {
+      this.handleStateChange('ak');
+    }
+
     if (country === 'global') {
       fetchedData = await fetchNewData('');
       let cardData = await fetchData();
@@ -86,11 +99,24 @@ class App extends React.Component {
 
   }
 
+  handleStateChange = async (state) => {
+
+    let check = this.state.stateMeta.filter(data => data.state === state)
+    let name = check.pop().displayName
+    const stateData = await fetchStateData(state);
+
+    this.setState({
+      state: state,
+      stateDisplay: name,
+      stateData: stateData,
+    })
+  }
+
   // <Chart data={ data } country={ country }/>
 
 
   render() {
-    const { data, country, cardData, countryName } = this.state;
+    const { data, country, cardData, countryName, state, stateDisplay, stateData } = this.state;
 
     return (
       <div className={styles.container}>
@@ -98,6 +124,8 @@ class App extends React.Component {
         <Cards cardData={cardData} />
         <CountryPicker handleCountryChange={this.handleCountryChange} />
         <UsChart data={data} country={country} countryName={countryName} />
+        <StatePicker country={country} handleStateChange={this.handleStateChange}/>
+        <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay}/>
       </div>
     )
   }

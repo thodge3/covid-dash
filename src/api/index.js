@@ -151,3 +151,54 @@ export const fetchCountries = async () => {
         console.log(error)
     }
 }
+
+export const fetchStateInfo = async() => {
+    let changeableUrl = urlJHU;
+
+    changeableUrl = `${urlJHU}/v1/states/info.json`
+
+    try{
+        const { data } = await axios.get(changeableUrl);
+        const modifiedData = data.map((data) => ({
+            displayName: data.name,
+            state: data.state.toLowerCase(),
+        }))
+        /*
+        const modifiedData = data.map((step) => ({ 
+            date: moment(step.date, 'YYYYMMDD').format('LL'),
+            positive: step.positive,
+            positiveIncrease: step.positiveIncrease,
+            recovered: step.recovered,
+            deaths: step.death,
+         }));
+         */
+
+        return modifiedData;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const fetchStateData = async(state) => {
+    let changeableUrl = urlJHU;
+
+    changeableUrl = `${urlJHU}/v1/states/${state}/daily.json`
+
+    try{
+        const { data } = await axios.get(changeableUrl);
+        const modifiedData = data.map((step) => ({ 
+            date: moment(step.date, 'YYYYMMDD').format('LL'),
+            positive: step.positive,
+            positiveIncrease: step.positiveIncrease,
+            recovered: step.recovered,
+            deaths: step.death,
+         }));
+        return modifiedData;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+

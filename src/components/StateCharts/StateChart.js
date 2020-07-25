@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { fetchGitData } from '../../api';
+import React, { useState, useEffect, Fragment } from 'react';
+import { fetchStateData } from '../../api';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,11 +9,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import _ from 'lodash';
 
-// import styles from './UsChart.module.css';
-
-
-const UsChart = ({ data, countryName }) => {
-    const [dailyData, setDailyData] = useState([]);
+const StateChart = ({ state, stateDisplay, stateData }) => {
 
     let modDataConfirmed = null;
     let modDataRecovered = null;
@@ -22,58 +18,19 @@ const UsChart = ({ data, countryName }) => {
     let modPositiveIncrease = [];
     let scatter = [];
 
-    useEffect(() => {
-        const fetchAPI = async () => {
-            setDailyData(await fetchGitData());
-        }
-
-        fetchAPI();
-    }, []);
-
-
-    try {
-        modDataConfirmed = data.map(({ positive }) => positive);
-        modDataRecovered = data.map(({ recovered }) => recovered);
-        modDataDeaths = data.map(({ deaths }) => deaths);
-        modDates = data.map(({ date }) => date);
-
-        for (let i = 0; i < modDataConfirmed.length; i++) {
-            if (i === 0) {
-                modPositiveIncrease.push(0)
-            } else {
-                modPositiveIncrease.push(modDataConfirmed[i] - modDataConfirmed[i - 1])
-            }
-        }
-
-        for (let i = 0; i < modDataConfirmed.length; i++) {
-            scatter.push({
-                name: modDates[i],
-                x: modDataConfirmed[i] + 0.0001,
-                y: modPositiveIncrease[i] + 0.0001,
-            })
-        }
-    
-        scatter = scatter.filter(item => item.y > 0)
-    
-        // console.log(modPositiveIncrease)
-        /*
-        // modPositiveIncrease = dailyData.map(({ positiveIncrease }) => positiveIncrease).reverse();
-        scatter = dailyData.map(({ positive, positiveIncrease, date }) => ({
+    if (stateData !== null) {
+        modDataConfirmed = stateData.map(({ positive }) => positive).reverse();
+        modDataRecovered = stateData.map(({ recovered }) => recovered).reverse();
+        modDataDeaths = stateData.map(({ deaths }) => deaths).reverse();
+        modDates = stateData.map(({ date }) => date).reverse();
+        modPositiveIncrease = stateData.map(({ positiveIncrease }) => positiveIncrease).reverse();
+        scatter = stateData.map(({ positive, positiveIncrease, date }) => ({
             name: date,
-            x: positive,
-            y: positiveIncrease,
+            x: positive + 0.001,
+            y: positiveIncrease + 0.001,
         }))
-
-        console.log(scatter)
-        */
-
-    } catch (error) {
-        console.log(error);
     }
-
-
-
-
+    
     const options = {
         chart: {
             zoomType: 'x',
@@ -87,7 +44,7 @@ const UsChart = ({ data, countryName }) => {
             }
         },
         title: {
-            text: `${countryName} Daily Confirmed COVID-19 Cases`
+            text: `${stateDisplay} Daily Confirmed COVID-19 Cases`
         },
         yAxis: {
             floor: 0,
@@ -138,7 +95,7 @@ const UsChart = ({ data, countryName }) => {
             }
         },
         title: {
-            text: `${countryName} COVID-19 Cases Growth (Log-Log)`
+            text: `${stateDisplay} COVID-19 Cases Growth (Log-Log)`
         },
         yAxis: {
             title: {
@@ -185,7 +142,7 @@ const UsChart = ({ data, countryName }) => {
             }
         },
         title: {
-            text: `${countryName} Daily Growth Confirmed COVID-19 Cases`
+            text: `${stateDisplay} Daily Growth Confirmed COVID-19 Cases`
         },
         yAxis: {
             title: {
@@ -216,7 +173,7 @@ const UsChart = ({ data, countryName }) => {
 
 
     const growthChart = (
-        scatter
+        state
             ? (<HighchartsReact
                 highcharts={Highcharts}
                 options={options2}
@@ -225,7 +182,7 @@ const UsChart = ({ data, countryName }) => {
     );
 
     const lineChart = (
-        modDataConfirmed
+        state
             ? (<HighchartsReact
                 highcharts={Highcharts}
                 options={options}
@@ -234,7 +191,7 @@ const UsChart = ({ data, countryName }) => {
     );
 
     const lineChartGrowth = (
-        modPositiveIncrease
+        state
             ? (<HighchartsReact
                 highcharts={Highcharts}
                 options={options3}
@@ -242,21 +199,30 @@ const UsChart = ({ data, countryName }) => {
 
     );
 
+    const stateSelect = (
+        state
+            ? (
+                <Container fluid>
+                    <Row>
+                        <Col lg={true}>
+                            {growthChart}
+                        </Col>
+                        <Col lg={true}>
+                            {lineChart}
+                        </Col>
+                        <Col lg={true}>
+                            {lineChartGrowth}
+                        </Col>
+                    </Row>
+                </Container >
+            ) : null
+    )
+
     return (
-        <Container fluid>
-            <Row>
-                <Col lg={true}>
-                    {growthChart}
-                </Col>
-                <Col lg={true}>
-                    {lineChart}
-                </Col>
-                <Col lg={true}>
-                    {lineChartGrowth}
-                </Col>
-            </Row>
-        </Container >
+        <Fragment>
+            {stateSelect}
+        </Fragment>
     )
 }
 
-export default UsChart;
+export default StateChart;
