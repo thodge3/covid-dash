@@ -55,6 +55,10 @@ class App extends React.Component {
         {
           target: '.CountryPicker_formControl__OBg0y',
           content: "Select United States for State Information!"
+        },
+        {
+          target: '.container-fluid',
+          content: "Drag to Zoom Plots!"
         }
       ]
     })
