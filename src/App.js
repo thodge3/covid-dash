@@ -125,7 +125,7 @@ class App extends React.Component {
         <CountryPicker handleCountryChange={this.handleCountryChange} />
         <UsChart data={data} country={country} countryName={countryName} />
         <StatePicker country={country} handleStateChange={this.handleStateChange}/>
-        <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay}/>
+        <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country}/>
       </div>
     )
   }

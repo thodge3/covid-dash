@@ -9,7 +9,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import _ from 'lodash';
 
-const StateChart = ({ state, stateDisplay, stateData }) => {
+const StateChart = ({ state, stateDisplay, stateData, country }) => {
 
     let modDataConfirmed = null;
     let modDataRecovered = null;
@@ -200,7 +200,7 @@ const StateChart = ({ state, stateDisplay, stateData }) => {
     );
 
     const stateSelect = (
-        state
+        country === 'united-states'
             ? (
                 <Container fluid>
                     <Row>
