@@ -4,7 +4,7 @@ import React from 'react';
 // import Chart from './components/Chart';
 // import CountryPicker from './components/CountryPicker';
 
-import { Cards, UsChart, CountryPicker, StatePicker } from './components';
+import { Cards, UsChart, CountryPicker, StatePicker, HeaderImage } from './components';
 import styles from './App.module.css'
 import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData } from './api';
 import moment from 'moment';
@@ -58,7 +58,8 @@ class App extends React.Component {
         },
         {
           target: '.container-fluid',
-          content: "Drag to Zoom Plots!"
+          content: "You Can Drag to Zoom Plots!",
+          placement: 'bottom',
         }
       ]
     })
@@ -135,9 +136,11 @@ class App extends React.Component {
     return (
       <div className={styles.container}>
         <ReactJoyride
+          continuous
+          showProgress={true}
           steps={this.state.steps}
         />
-        <img src={coronaImage} className={styles.image} alt='COVID-19' />
+        <HeaderImage />
         <Cards cardData={cardData} />
         <CountryPicker handleCountryChange={this.handleCountryChange} id='check'/>
         <UsChart data={data} country={country} countryName={countryName} />
