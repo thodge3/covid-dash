@@ -17,6 +17,7 @@ const StateChart = ({ state, stateDisplay, stateData, country }) => {
     let modDates = null;
     let modPositiveIncrease = [];
     let modHospitalIncrease = [];
+    let modHospitalCurrent = [];
     let scatter = [];
 
     if (stateData !== null) {
@@ -26,6 +27,7 @@ const StateChart = ({ state, stateDisplay, stateData, country }) => {
         modDates = stateData.map(({ date }) => date).reverse();
         modPositiveIncrease = stateData.map(({ positiveIncrease }) => positiveIncrease).reverse();
         modHospitalIncrease = stateData.map(({ hospitalIncrease }) => hospitalIncrease).reverse();
+        modHospitalCurrent = stateData.map(({ hospitalCurrent }) => hospitalCurrent).reverse();
         scatter = stateData.map(({ positive, positiveIncrease, date }) => ({
             name: date,
             x: positive + 0.001,
@@ -80,6 +82,11 @@ const StateChart = ({ state, stateDisplay, stateData, country }) => {
                 name: "Deaths",
                 data: modDataDeaths,
                 color: 'rgba(255, 0, 0, 0.5)',
+            },
+            {
+                name: "Hospitalizations",
+                data: modHospitalCurrent,
+                color: '#58508d',
             }
         ],
     }

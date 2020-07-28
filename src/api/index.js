@@ -205,10 +205,12 @@ export const fetchStateData = async (state) => {
             date: moment(step.date, 'YYYYMMDD').format('LL'),
             positive: step.positive,
             positiveIncrease: step.positiveIncrease,
+            hospitalCurrent: step.hospitalizedCurrently,
             hospitalIncrease: step.hospitalizedIncrease,
             recovered: step.recovered,
             deaths: step.death,
         }));
+        console.log(data[0]);
         return modifiedData;
 
     } catch (error) {
