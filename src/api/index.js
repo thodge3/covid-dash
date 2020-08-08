@@ -219,3 +219,25 @@ export const fetchStateData = async (state) => {
 }
 
 
+export const fetchAllCountry = async (state) => {
+    let changeableUrl = allCountriesUrl;
+
+    changeableUrl = `${allCountriesUrl}/summary`
+
+    try {
+        const { data } = await axios.get(changeableUrl);
+        const modifiedData = data['Countries'].map(data => ({
+            countries: data.Country, 
+            iso2: data.CountryCode,
+            newConfirmed: data.NewConfirmed,
+            totalConfirmed: data.TotalConfirmed
+        }))
+
+        return modifiedData;
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
