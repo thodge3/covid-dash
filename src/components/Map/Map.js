@@ -1,60 +1,89 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
+import ReactTooltip from "react-tooltip";
+import "./Map.css";
+
 import { scaleLinear } from "d3-scale";
 import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Sphere,
-  Graticule
+    ComposableMap,
+    Geographies,
+    Geography,
+    Sphere,
+    Graticule,
+    ZoomableGroup
 } from "react-simple-maps";
 
 const geoUrl =
-  "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
+    "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
 const colorScale = scaleLinear()
-  .domain([0, 10000])
-  .range(["#ffedea", "#ff5233"]);
+    .domain([0, 10000])
+    .range(["#ffedea", "#ff5233"]);
 
-const MapChart = ({allCountry}) => {
+const MapChart = ({ allCountry }) => {
 
+    const [content, setContent] = useState("")
     let modAllCountry = allCountry
-    //console.log(modAllCountry)
-    
+
     const lineChartGrowth = (
         modAllCountry
-            ? (<Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map(geo => {
-                    const d = modAllCountry.find(s => s.iso2 === geo.properties.ISO_A2);
-                    console.log(d)
-                    //console.log(geographies)
-                    //console.log(modAllCountry)
-                    return (
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill = {d ? colorScale(d["newConfirmed"]) : "#F5F4F6"}
-                      />
-                    );
-                  })
-                }
-              </Geographies>
-              ) : null
+            ? (
+                <ComposableMap data-tip="" projectionConfig={{ scale: 170 }}>
+                    <Geographies geography={geoUrl}>
+                        {({ geographies }) =>
+                            geographies.map(geo => {
+                                const d = modAllCountry.find(s => s.iso2 === geo.properties.ISO_A2);
+                                return (
+                                    <Geography
+                                        key={geo.rsmKey}
+                                        geography={geo}
+                                        fill={d ? colorScale(d["newConfirmed"]) : "#F5F4F6"}
+                                        onMouseEnter={() => {
+                                            let NAME = ""
+                                            let EST = ""
+                                            try{
+                                                NAME = d['countries']
+                                                EST = d["newConfirmed"]
+                                                setContent(`${NAME} — ${EST} New Cases`);
+                                            }catch(error){
+                                                setContent(`No Data Available`);
+                                            }
+                                        }}
+                                        onMouseLeave={() => {
+                                            setContent("");
+                                        }}
+                                        style={{
+                                            default: {
+                                              outline: "none"
+                                            },
+                                            hover: {
+                                              outline: "none"
+                                            },
+                                            pressed: {
+                                              outline: "none"
+                                            }
+                                          }}
+                                    />
+                                );
+                            })
+                        }
+                    </Geographies>
+                </ComposableMap>
+            ) : null
     );
 
-  return (
-    <ComposableMap 
-      projectionConfig={{
-        rotate: [-10, 0, 0],
-        scale: 147
-      }}
-    >
-      <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
-      <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
-      {lineChartGrowth}
-        
-    </ComposableMap>
-  );
+    return (
+        <Fragment>
+            <ComposableMap
+                projectionConfig={{
+                    rotate: [-10, 0, 0],
+                    scale: 147
+                }}
+            >
+                {lineChartGrowth}
+            </ComposableMap>
+            <ReactTooltip>{content}</ReactTooltip>
+        </Fragment>
+    );
 };
 
 export default MapChart;

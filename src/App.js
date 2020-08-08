@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import Cards from './components/Cards';
 // import Chart from './components/Chart';
 // import CountryPicker from './components/CountryPicker';
-
+import ReactTooltip from "react-tooltip";
 import { Cards, UsChart, CountryPicker, StatePicker, HeaderImage } from './components';
 import styles from './App.module.css'
 import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData, fetchAllCountry } from './api';
@@ -153,7 +153,7 @@ class App extends React.Component {
         <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country}/>
     
         <h3>Today's World Hot Spots</h3>
-        <Map allCountry={allCountry}/>
+        <Map allCountry={allCountry} />
       </div>
       
     )
