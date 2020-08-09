@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { fetchStateData } from '../../api';
+import React, { Fragment } from 'react';
+// import { fetchStateData } from '../../api';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

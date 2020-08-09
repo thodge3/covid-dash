@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { fetchGitData } from '../../api';
+import React, { useEffect } from 'react';
+// import { fetchGitData } from '../../api';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 
 const UsChart = ({ data, countryName }) => {
-    const [dailyData, setDailyData] = useState([]);
+    // const [dailyData, setDailyData] = useState([]);
 
     let modDataConfirmed = null;
     let modDataRecovered = null;
@@ -24,7 +24,7 @@ const UsChart = ({ data, countryName }) => {
 
     useEffect(() => {
         const fetchAPI = async () => {
-            setDailyData(await fetchGitData());
+            // setDailyData(await fetchGitData());
         }
 
         fetchAPI();

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid } from '@material-ui/core';
 import CountUp from 'react-countup';
-import { useSpring, animated } from 'react-spring'
+// mport { useSpring } from 'react-spring'
 import cx from 'classnames';
 
 import styles from './Cards.module.css';
 
 const Cards = ({ cardData: { confirmed, recovered, deaths, lastUpdate } }) => {
 
-    const [props, set] = useSpring(() => ({ xys: [0, 0, 1], config: { mass: 15, tension: 500, friction: 40 } }))
+    // const [props, set] = useSpring(() => ({ xys: [0, 0, 1], config: { mass: 15, tension: 500, friction: 40 } }))
 
     const easeOutCubic = (t, b, c, d) => {
         return c * ((t = t / d - 1) * t * t + 1) + b * t;
@@ -18,8 +18,8 @@ const Cards = ({ cardData: { confirmed, recovered, deaths, lastUpdate } }) => {
         return 'Loading...'
     }
 
-    const calc = (x, y) => [-(y - window.innerHeight / 2) / 20, (x - window.innerWidth / 2) / 20, 1.1]
-    const trans = (x, y, s) => `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
+    // const calc = (x, y) => [-(y - window.innerHeight / 2) / 20, (x - window.innerWidth / 2) / 20, 1.1]
+    // const trans = (x, y, s) => `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
 
     const cards = (
         lastUpdate

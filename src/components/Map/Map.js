@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import ReactTooltip from "react-tooltip";
 import "./Map.css";
 
@@ -7,9 +7,6 @@ import {
     ComposableMap,
     Geographies,
     Geography,
-    Sphere,
-    Graticule,
-    ZoomableGroup
 } from "react-simple-maps";
 
 const geoUrl =
@@ -73,6 +70,7 @@ const MapChart = ({ allCountry }) => {
 
     return (
         <Fragment>
+            <h3>Today's World Hot Spots</h3>
             <ComposableMap
                 projectionConfig={{
                     rotate: [-10, 0, 0],

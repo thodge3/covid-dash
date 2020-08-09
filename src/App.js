@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import Cards from './components/Cards';
 // import Chart from './components/Chart';
 // import CountryPicker from './components/CountryPicker';
-import ReactTooltip from "react-tooltip";
+// import ReactTooltip from "react-tooltip";
 import { Cards, UsChart, CountryPicker, StatePicker, HeaderImage } from './components';
 import styles from './App.module.css'
 import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData, fetchAllCountry } from './api';
 import moment from 'moment';
 import ReactJoyride from 'react-joyride';
 
-import coronaImage from './images/image.png';
+// import coronaImage from './images/image.png';
 import StateChart from './components/StateCharts/StateChart';
 import Map from './components/Map/Map';
 
@@ -74,7 +74,7 @@ class App extends React.Component {
     // const fetchedData = await fetchData(country);
     let fetchedData;
 
-    if(country === 'united-states') {
+    if (country === 'united-states') {
       this.handleStateChange('ak');
     }
 
@@ -147,15 +147,13 @@ class App extends React.Component {
         />
         <HeaderImage />
         <Cards cardData={cardData} />
-        <CountryPicker handleCountryChange={this.handleCountryChange} id='check'/>
+        <CountryPicker handleCountryChange={this.handleCountryChange} id='check' />
         <UsChart data={data} country={country} countryName={countryName} />
-        <StatePicker country={country} handleStateChange={this.handleStateChange}/>
-        <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country}/>
-    
-        <h3>Today's World Hot Spots</h3>
+        <StatePicker country={country} handleStateChange={this.handleStateChange} />
+        <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country} />
         <Map allCountry={allCountry} />
       </div>
-      
+
     )
   }
 }

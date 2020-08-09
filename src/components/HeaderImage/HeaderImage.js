@@ -1,7 +1,7 @@
 import React from 'react';
 import coronaImage from '../../images/image.png';
 import { useSpring, animated } from 'react-spring';
-import Container from 'react-bootstrap/Container';
+// import Container from 'react-bootstrap/Container';
 
 
 import styles from '../../App.module.css';
