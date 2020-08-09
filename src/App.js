@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import Cards from './components/Cards';
 // import Chart from './components/Chart';
 // import CountryPicker from './components/CountryPicker';
-
+import ReactTooltip from "react-tooltip";
 import { Cards, UsChart, CountryPicker, StatePicker, HeaderImage } from './components';
 import styles from './App.module.css'
-import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData } from './api';
+import { fetchData, fetchGitData, fetchNewData, fetchNewCountries, fetchStateInfo, fetchStateData, fetchAllCountry } from './api';
 import moment from 'moment';
 import ReactJoyride from 'react-joyride';
 
 import coronaImage from './images/image.png';
 import StateChart from './components/StateCharts/StateChart';
+import Map from './components/Map/Map';
 
 class App extends React.Component {
 
@@ -27,6 +28,7 @@ class App extends React.Component {
     stateMeta: null,
     stateData: null,
     steps: [],
+    allCountry: []
   }
 
   async componentDidMount() {
@@ -35,7 +37,10 @@ class App extends React.Component {
     const fetchedGitData = await fetchGitData();
     const countries = await fetchNewCountries();
     const stateInfo = await fetchStateInfo();
+    const allCountry = await fetchAllCountry();
 
+
+    this.setState({ allCountry: allCountry });
     this.setState({ data: fetchedData });
     this.setState({ usData: fetchedGitData });
     this.setState({ countries: countries })
@@ -131,7 +136,7 @@ class App extends React.Component {
 
 
   render() {
-    const { data, country, cardData, countryName, state, stateDisplay, stateData } = this.state;
+    const { data, country, cardData, countryName, state, stateDisplay, stateData, allCountry } = this.state;
 
     return (
       <div className={styles.container}>
@@ -146,7 +151,11 @@ class App extends React.Component {
         <UsChart data={data} country={country} countryName={countryName} />
         <StatePicker country={country} handleStateChange={this.handleStateChange}/>
         <StateChart state={state} stateData={stateData} stateDisplay={stateDisplay} country={country}/>
+    
+        <h3>Today's World Hot Spots</h3>
+        <Map allCountry={allCountry} />
       </div>
+      
     )
   }
 }
