@@ -6,5 +6,6 @@ handlers:
     upload: build/(.*\..+)$
   # Catch all handler to index.html
   - url: /.*
+    secure: always
     static_files: build/index.html
     upload: build/index.html
