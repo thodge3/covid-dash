@@ -11,7 +11,7 @@ body{
 
 .image{
     width: 370px;
-    margin-top: 50px;
+    margin: 30px;
 }
 
 @media(max-width: 770px ){
@@ -20,5 +20,7 @@ body{
     }
     .image{
         width: 100%;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
