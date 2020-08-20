@@ -5,7 +5,9 @@ import _ from 'lodash';
 const url = 'https://covid19.mathdro.id/api';
 const allCountriesUrl = 'https://api.covid19api.com'
 
-const urlJHU = 'https://covidtracking.com/api';
+const urlJHU = 'https://api.covidtracking.com/v1';
+// const urlJHU = '/api';
+
 
 export const fetchNewCountries = async () => {
     let changeableUrl = allCountriesUrl;
@@ -62,7 +64,7 @@ export const fetchNewData = async (country) => {
         }
     } else if (country === 'united-states') {
         try {
-            const { data } = await axios.get(`${urlJHU}/us/daily/`);
+            const { data } = await axios.get(`${urlJHU}/us/daily.json`);
             const modifiedData = data.map((step) => ({
                 date: moment(step.date, 'YYYYMMDD').format('LL'),
                 timestamp: moment(step.date).format('x'),
@@ -99,7 +101,7 @@ export const fetchNewData = async (country) => {
 export const fetchGitData = async () => {
     let changeableUrl = urlJHU;
 
-    changeableUrl = `${urlJHU}/us/daily/`
+    changeableUrl = `${urlJHU}/us/daily.json`
 
     try {
         const { data } = await axios.get(changeableUrl);
@@ -169,7 +171,7 @@ export const fetchCountries = async () => {
 export const fetchStateInfo = async () => {
     let changeableUrl = urlJHU;
 
-    changeableUrl = `${urlJHU}/v1/states/info.json`
+    changeableUrl = `${urlJHU}/states/info.json`
 
     try {
         const { data } = await axios.get(changeableUrl);
@@ -197,7 +199,7 @@ export const fetchStateInfo = async () => {
 export const fetchStateData = async (state) => {
     let changeableUrl = urlJHU;
 
-    changeableUrl = `${urlJHU}/v1/states/${state}/daily.json`
+    changeableUrl = `${urlJHU}/states/${state}/daily.json`
 
     try {
         const { data } = await axios.get(changeableUrl);

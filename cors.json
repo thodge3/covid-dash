@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["https://covid.travishodge.com"],
+      "method": ["GET"],
+      "responseHeader": ["Content-Type"],
+      "maxAgeSeconds": 3600
+    }
+]
